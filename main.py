@@ -1,13 +1,12 @@
 import json
 import sys
-from settings import Settings
 from loguru import logger
 from base64 import b64decode
 from urllib.request import urlopen
 from urllib.parse import urlsplit
-from pathlib import Path
 from shadowsocks import ShadowSocks
 from vmess import Vmess
+from settings import Settings
 
 
 logger.add(Settings.log_path)

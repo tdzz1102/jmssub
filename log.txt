@@ -1,4 +1,0 @@
-2023-04-07 22:08:35.080 | INFO     | __main__:main:45 - Subscription update OK.
-2023-04-07 22:08:35.622 | WARNING  | __main__:main:69 - No container found. Start a new one.
-2023-04-07 22:10:05.389 | INFO     | __main__:main:45 - Subscription update OK.
-2023-04-07 22:10:05.915 | WARNING  | __main__:main:70 - No container found. Start a new one.
