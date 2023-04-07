@@ -1,0 +1,93 @@
+{
+    "log": {
+        "loglevel": "error"
+    },
+    "inbounds": [
+        {
+            "listen": "0.0.0.0",
+            "port": 33414,
+            "protocol": "shadowsocks",
+            "settings": {
+                "method": "aes-128-gcm",
+                "password": "aaabbjaaaaa"
+            },
+            "streamSettings": {
+                "network": "tcp"
+            }
+        }
+    ],
+    "outbounds": [
+        {
+            "protocol": "shadowsocks",
+            "settings": {
+                "servers": [
+                    {
+                        "address": "65.49.192.110",
+                        "method": "aes-256-gcm",
+                        "password": "d5E7PCMUmonHo5rc",
+                        "port": 12537
+                    },
+                    {
+                        "address": "199.115.228.201",
+                        "method": "aes-256-gcm",
+                        "password": "d5E7PCMUmonHo5rc",
+                        "port": 12537
+                    }
+                ]
+            }
+        },
+        {
+            "protocol": "vmess",
+            "settings": {
+                "vnext": [
+                    {
+                        "address": "74.211.99.186",
+                        "port": 12537,
+                        "users": [
+                            {
+                                "id": "988bd515-6f99-409c-8ef6-a64fdf0f5e95",
+                                "alterId": 0
+                            }
+                        ]
+                    },
+                    {
+                        "address": "212.50.250.188",
+                        "port": 12537,
+                        "users": [
+                            {
+                                "id": "988bd515-6f99-409c-8ef6-a64fdf0f5e95",
+                                "alterId": 0
+                            }
+                        ]
+                    },
+                    {
+                        "address": "104.245.98.77",
+                        "port": 12537,
+                        "users": [
+                            {
+                                "id": "988bd515-6f99-409c-8ef6-a64fdf0f5e95",
+                                "alterId": 0
+                            }
+                        ]
+                    },
+                    {
+                        "address": "174.137.50.126",
+                        "port": 12537,
+                        "users": [
+                            {
+                                "id": "988bd515-6f99-409c-8ef6-a64fdf0f5e95",
+                                "alterId": 0
+                            }
+                        ]
+                    }
+                ]
+            },
+            "streamsettings": {
+                "transport": "tcp"
+            },
+            "mux": {
+                "enabled": true
+            }
+        }
+    ]
+}
