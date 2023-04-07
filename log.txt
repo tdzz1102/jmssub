@@ -1,9 +1,4 @@
-2023-04-07 20:59:46.241 | INFO     | __main__:<module>:47 - Subscription update OK.
-2023-04-07 21:00:11.431 | INFO     | __main__:<module>:47 - Subscription update OK.
-2023-04-07 21:00:12.249 | INFO     | __main__:<module>:60 - Container restart OK.
-2023-04-07T21:02:32.882727+0800 - INFO - Subscription update OK.
-2023-04-07T21:02:33.727505+0800 - INFO - Container restart OK.
-2023-04-07T21:03:32.257036+0800 - INFO - Subscription update OK.
-2023-04-07T21:03:32.976015+0800 - INFO - Container restart OK.
-2023-04-07T21:04:21.441240+0800 - INFO - Subscription update OK.
-2023-04-07T21:04:22.008796+0800 - WARNING - No container found. Start a new one.
+2023-04-07 22:08:35.080 | INFO     | __main__:main:45 - Subscription update OK.
+2023-04-07 22:08:35.622 | WARNING  | __main__:main:69 - No container found. Start a new one.
+2023-04-07 22:10:05.389 | INFO     | __main__:main:45 - Subscription update OK.
+2023-04-07 22:10:05.915 | WARNING  | __main__:main:70 - No container found. Start a new one.

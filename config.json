@@ -14,6 +14,10 @@
             "streamSettings": {
                 "network": "tcp"
             }
+        },
+        {
+            "port": 32700,
+            "protocol": "http"
         }
     ],
     "outbounds": [
