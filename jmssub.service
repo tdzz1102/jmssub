@@ -1,0 +1,10 @@
+[Unit]
+Description=JMSSUB
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/opt/jmssub/entrypoint.sh
+[Install]
+WantedBy=multi-user.target
