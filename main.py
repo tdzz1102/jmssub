@@ -4,17 +4,20 @@ from loguru import logger
 from base64 import b64decode
 from urllib.request import urlopen
 from urllib.parse import urlsplit
+from time import sleep
 from shadowsocks import ShadowSocks
 from vmess import Vmess
 from settings import Settings
 
 
 logger.add(Settings.log_path)
+sub_content = ''
+# count = 0
 
 
-def main():
-    return_content = urlopen(Settings.subscription_url).read()
-    share_links = b64decode(return_content).decode('utf-8').splitlines()
+def update_sub():
+    global sub_content
+    share_links = b64decode(sub_content).decode('utf-8').splitlines()
 
     try:
         with open(Settings.v2ray_config_path) as f:
@@ -69,4 +72,17 @@ def main():
             logger.warning('No container found. Start a new one.')
 
 
-main()
+def main():
+    while True:
+        # logger.info('Working...')
+        global sub_content
+        new_sub_content = urlopen(Settings.subscription_url).read()
+        if new_sub_content != sub_content:
+            logger.warning('Detected subscription change.')
+            sub_content = new_sub_content
+            update_sub()
+        sleep(60)
+    
+    
+if __name__ == '__main__':
+    main()
