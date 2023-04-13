@@ -1,8 +1,8 @@
 import json
 import sys
+from requests import Session
 from loguru import logger
 from base64 import b64decode
-from urllib.request import urlopen
 from urllib.parse import urlsplit
 from time import sleep
 from shadowsocks import ShadowSocks
@@ -73,10 +73,12 @@ def update_sub():
 
 
 def main():
+    se = Session()
+    se.trust_env = False
     while True:
-        # logger.info('Working...')
+        logger.info('Working...')
         global sub_content
-        new_sub_content = urlopen(Settings.subscription_url).read()
+        new_sub_content = se.get(Settings.subscription_url).text
         if new_sub_content != sub_content:
             logger.warning('Detected subscription change.')
             sub_content = new_sub_content
