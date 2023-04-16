@@ -78,11 +78,14 @@ def main():
     while True:
         logger.info('Working...')
         global sub_content
-        new_sub_content = se.get(Settings.subscription_url).text
-        if new_sub_content != sub_content:
-            logger.warning('Detected subscription change.')
-            sub_content = new_sub_content
-            update_sub()
+        try:
+            new_sub_content = se.get(Settings.subscription_url).text
+            if new_sub_content != sub_content:
+                logger.warning('Detected subscription change.')
+                sub_content = new_sub_content
+                update_sub()
+        except Exception as e:
+            logger.error(str(e))
         sleep(60)
     
     
