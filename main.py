@@ -42,7 +42,7 @@ def update_sub():
         elif protocal == 'vmess':
             vmess_items.append(Vmess(json.loads(tmp)))
 
-    outbounds.append(ShadowSocks.gen_outbound(ss_items))
+    # outbounds.append(ShadowSocks.gen_outbound(ss_items))
     outbounds.append(Vmess.gen_outbound(vmess_items))
     logger.info('Subscription update OK.')
 
