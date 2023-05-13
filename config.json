@@ -16,7 +16,8 @@
             }
         },
         {
-            "port": 32700,
+            "listen": "127.0.0.1",
+            "port": 3341,
             "protocol": "http"
         }
     ],
@@ -26,13 +27,13 @@
             "settings": {
                 "servers": [
                     {
-                        "address": "65.49.192.110",
+                        "address": "65.49.207.138",
                         "method": "aes-256-gcm",
                         "password": "d5E7PCMUmonHo5rc",
                         "port": 12537
                     },
                     {
-                        "address": "199.115.228.201",
+                        "address": "65.49.213.167",
                         "method": "aes-256-gcm",
                         "password": "d5E7PCMUmonHo5rc",
                         "port": 12537
@@ -45,7 +46,7 @@
             "settings": {
                 "vnext": [
                     {
-                        "address": "74.211.99.186",
+                        "address": "199.180.118.199",
                         "port": 12537,
                         "users": [
                             {
@@ -55,7 +56,7 @@
                         ]
                     },
                     {
-                        "address": "212.50.250.188",
+                        "address": "212.50.250.234",
                         "port": 12537,
                         "users": [
                             {
@@ -65,7 +66,7 @@
                         ]
                     },
                     {
-                        "address": "104.245.98.77",
+                        "address": "104.193.10.173",
                         "port": 12537,
                         "users": [
                             {
@@ -75,7 +76,7 @@
                         ]
                     },
                     {
-                        "address": "174.137.50.126",
+                        "address": "174.137.57.35",
                         "port": 12537,
                         "users": [
                             {

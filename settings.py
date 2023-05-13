@@ -5,4 +5,3 @@ class Settings:
 
     docker = True
     container_name = 'v2ray'
-    ports = [32700, 33414]

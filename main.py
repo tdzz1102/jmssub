@@ -57,15 +57,12 @@ def update_sub():
             ct.restart()
             logger.info('Container restart OK.')
         except:
-            ports = {}
-            for port in Settings.ports:
-                ports[f'{port}/tcp'] = port
             ct = client.containers.run(
                 image='v2fly/v2fly-core',
                 command=f'run -c /etc/v2fly/config.json',
                 volumes={Settings.v2ray_config_path: {
                     'bind': '/etc/v2fly/config.json', 'mode': 'rw'}},
-                ports=ports,
+                network_mode='host',
                 detach=True,
                 name=Settings.container_name
             )
