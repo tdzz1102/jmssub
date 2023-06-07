@@ -1,7 +1,8 @@
 import copy
+from server import Server
 
 
-class ShadowSocks:
+class ShadowSocks(Server):
     template = {
         "protocol": "shadowsocks",
         "settings": {
@@ -20,27 +21,22 @@ class ShadowSocks:
     def __init__(self, tmp: str) -> None:
         # aes-256-gcm:pass@ip:port
         kakera = tmp.split(':')
-        self.method, self.port = kakera[0], int(kakera[2])
-        self.password, self.address = kakera[1].split('@')
+        self.method, port = kakera[0], int(kakera[2])
+        self.password, address = kakera[1].split('@')
+        super().__init__(address, port)
 
-    # def outbound(self):
-    #     cfg = copy.deepcopy(ShadowSocks.template)
-    #     server = copy.copy(ShadowSocks.snext)
-    #     server['address'] = self.address
-    #     server['method'] = self.method
-    #     server['port'] = self.port
-    #     server['password'] = self.password
-    #     cfg['settings']['servers'].append(server)
-    #     return cfg
+    def outbound(self):
+        server = copy.copy(ShadowSocks.snext)
+        server['address'] = self.address
+        server['method'] = self.method
+        server['port'] = self.port
+        server['password'] = self.password
+        return server
 
     @staticmethod
     def gen_outbound(items):
         cfg = copy.deepcopy(ShadowSocks.template)
         for item in items:
-            server = copy.copy(ShadowSocks.snext)
-            server['address'] = item.address
-            server['method'] = item.method
-            server['port'] = item.port
-            server['password'] = item.password
+            server = item.outbound()
             cfg['settings']['servers'].append(server)
         return cfg

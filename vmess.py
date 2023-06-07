@@ -1,6 +1,8 @@
 import copy
+from server import Server
 
-class Vmess:
+
+class Vmess(Server):
     template = {
         "protocol": "vmess",
         "settings": {
@@ -27,32 +29,26 @@ class Vmess:
     }
 
     def __init__(self, tmp: dict) -> None:
-        self.port = int(tmp['port'])
+        port = int(tmp['port'])
+        address = tmp['add']
+        super(). __init__(address, port)
         self.id = tmp['id']
         self.alterId = int(tmp['aid'])
-        self.address = tmp['add']
-        # self.transport = tmp['net']
-        # self.security = tmp['type']
-
-    # def outbound(self):
-    #     cfg = deepcopy(Vmess.template)
-    #     server = cfg['settings']['vnext'][0]
-    #     server['address'] = self.address
-    #     server['port'] = self.port
-    #     user = server['users'][0]
-    #     user['id'] = self.id
-    #     user['alterId'] = self.alterId
-    #     return cfg
+        
+    # get single server
+    def outbound(self):
+        server = copy.deepcopy(Vmess.snext)
+        server['address'] = self.address
+        server['port'] = self.port
+        user = server['users'][0]
+        user['id'] = self.id
+        user['alterId'] = self.alterId
+        return server
     
     @staticmethod
     def gen_outbound(items):
         cfg = copy.deepcopy(Vmess.template)
         for item in items:
-            server = copy.deepcopy(Vmess.snext)
-            server['address'] = item.address
-            server['port'] = item.port
-            user = server['users'][0]
-            user['id'] = item.id
-            user['alterId'] = item.alterId
+            server = item.outbound()
             cfg['settings']['vnext'].append(server)
         return cfg

@@ -14,7 +14,6 @@ logger.add(Settings.log_path)
 sub_content = ''
 # count = 0
 
-
 def update_sub():
     global sub_content
     share_links = b64decode(sub_content).decode('utf-8').splitlines()
@@ -38,13 +37,18 @@ def update_sub():
         protocal = url.scheme
         tmp = b64decode(url.netloc + '===').decode('utf-8')
         if protocal == 'ss':
-            ss_items.append(ShadowSocks(tmp))
+            ss = ShadowSocks(tmp)
+            if ss.ping(): ss_items.append(ss)
         elif protocal == 'vmess':
-            vmess_items.append(Vmess(json.loads(tmp)))
+            vm = Vmess(json.loads(tmp))
+            if vm.ping(): vmess_items.append(Vmess(json.loads(tmp)))
 
-    # outbounds.append(ShadowSocks.gen_outbound(ss_items))
-    outbounds.append(Vmess.gen_outbound(vmess_items))
+    if not Settings.vmess_only and ss_items: outbounds.append(ShadowSocks.gen_outbound(ss_items))
+    if vmess_items: outbounds.append(Vmess.gen_outbound(vmess_items))
     logger.info('Subscription update OK.')
+    
+    if len(ss_items) + len(vmess_items) == 0:
+        logger.error('No avalible server.')
 
     with open(Settings.v2ray_config_path, 'w') as f:
         json.dump(v2ray_config, f, indent=4)
@@ -73,7 +77,7 @@ def main():
     se = Session()
     se.trust_env = False
     while True:
-        logger.info('Working...')
+        # logger.info('Working...')
         global sub_content
         try:
             new_sub_content = se.get(Settings.subscription_url).text

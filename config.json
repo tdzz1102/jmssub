@@ -16,7 +16,6 @@
             }
         },
         {
-            "listen": "127.0.0.1",
             "port": 3341,
             "protocol": "http"
         }
@@ -27,16 +26,16 @@
             "settings": {
                 "servers": [
                     {
-                        "address": "65.49.207.138",
+                        "address": "45.78.24.99",
                         "method": "aes-256-gcm",
-                        "password": "d5E7PCMUmonHo5rc",
-                        "port": 12537
+                        "password": "pJ3tnTes94doyogd",
+                        "port": 9957
                     },
                     {
-                        "address": "65.49.213.167",
+                        "address": "45.78.33.36",
                         "method": "aes-256-gcm",
-                        "password": "d5E7PCMUmonHo5rc",
-                        "port": 12537
+                        "password": "pJ3tnTes94doyogd",
+                        "port": 9957
                     }
                 ]
             }
@@ -46,41 +45,41 @@
             "settings": {
                 "vnext": [
                     {
-                        "address": "199.180.118.199",
-                        "port": 12537,
+                        "address": "45.78.16.185",
+                        "port": 9957,
                         "users": [
                             {
-                                "id": "988bd515-6f99-409c-8ef6-a64fdf0f5e95",
+                                "id": "12d8f193-535c-450b-8c83-a6d5a2333c91",
                                 "alterId": 0
                             }
                         ]
                     },
                     {
-                        "address": "212.50.250.234",
-                        "port": 12537,
+                        "address": "45.78.34.188",
+                        "port": 9957,
                         "users": [
                             {
-                                "id": "988bd515-6f99-409c-8ef6-a64fdf0f5e95",
+                                "id": "12d8f193-535c-450b-8c83-a6d5a2333c91",
                                 "alterId": 0
                             }
                         ]
                     },
                     {
-                        "address": "104.193.10.173",
-                        "port": 12537,
+                        "address": "45.78.35.152",
+                        "port": 9957,
                         "users": [
                             {
-                                "id": "988bd515-6f99-409c-8ef6-a64fdf0f5e95",
+                                "id": "12d8f193-535c-450b-8c83-a6d5a2333c91",
                                 "alterId": 0
                             }
                         ]
                     },
                     {
-                        "address": "174.137.57.35",
-                        "port": 12537,
+                        "address": "174.137.48.211",
+                        "port": 9957,
                         "users": [
                             {
-                                "id": "988bd515-6f99-409c-8ef6-a64fdf0f5e95",
+                                "id": "12d8f193-535c-450b-8c83-a6d5a2333c91",
                                 "alterId": 0
                             }
                         ]
