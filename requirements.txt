@@ -1,0 +1,4 @@
+requests
+loguru
+ping3
+docker
