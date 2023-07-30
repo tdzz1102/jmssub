@@ -9,10 +9,12 @@ from shadowsocks import ShadowSocks
 from vmess import Vmess
 from settings import Settings
 
-
 logger.add(Settings.log_path)
 sub_content = ''
+
+
 # count = 0
+
 
 def update_sub():
     global sub_content
@@ -32,21 +34,27 @@ def update_sub():
     ss_items: list[ShadowSocks] = []
     vmess_items: list[Vmess] = []
 
-    for share_link in share_links:
+    for i, share_link in enumerate(share_links):
+        if i != 3: # japan only
+            continue
         url = urlsplit(share_link)
         protocal = url.scheme
         tmp = b64decode(url.netloc + '===').decode('utf-8')
         if protocal == 'ss':
             ss = ShadowSocks(tmp)
-            if ss.ping(): ss_items.append(ss)
+            if ss.ping():
+                ss_items.append(ss)
         elif protocal == 'vmess':
             vm = Vmess(json.loads(tmp))
-            if vm.ping(): vmess_items.append(Vmess(json.loads(tmp)))
+            # if vm.ping():
+            vmess_items.append(Vmess(json.loads(tmp)))
 
-    if not Settings.vmess_only and ss_items: outbounds.append(ShadowSocks.gen_outbound(ss_items))
-    if vmess_items: outbounds.append(Vmess.gen_outbound(vmess_items))
+    if not Settings.vmess_only and ss_items:
+        outbounds.append(ShadowSocks.gen_outbound(ss_items))
+    if vmess_items:
+        outbounds.append(Vmess.gen_outbound(vmess_items))
     logger.info('Subscription update OK.')
-    
+
     if len(ss_items) + len(vmess_items) == 0:
         logger.error('No avalible server.')
 
@@ -88,7 +96,7 @@ def main():
         except Exception as e:
             logger.error(str(e))
         sleep(60)
-    
-    
+
+
 if __name__ == '__main__':
     main()
