@@ -7,10 +7,13 @@ from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from starlette.websockets import WebSocketDisconnect
 from fastapi.templating import Jinja2Templates
 
+from pathlib import Path
+
 
 app = FastAPI()
 security = HTTPBasic()
-templates = Jinja2Templates(directory="templates")
+template_path = Path(__file__).parent / 'templates'
+templates = Jinja2Templates(directory=str(template_path.resolve()))
 
 
 def get_current_username(credentials: HTTPBasicCredentials = Depends(security)):
