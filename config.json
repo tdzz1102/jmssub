@@ -22,64 +22,15 @@
     ],
     "outbounds": [
         {
-            "protocol": "shadowsocks",
-            "settings": {
-                "servers": [
-                    {
-                        "address": "45.78.24.99",
-                        "method": "aes-256-gcm",
-                        "password": "pJ3tnTes94doyogd",
-                        "port": 9957
-                    },
-                    {
-                        "address": "45.78.33.36",
-                        "method": "aes-256-gcm",
-                        "password": "pJ3tnTes94doyogd",
-                        "port": 9957
-                    }
-                ]
-            }
-        },
-        {
             "protocol": "vmess",
             "settings": {
                 "vnext": [
                     {
-                        "address": "45.78.16.185",
-                        "port": 9957,
+                        "address": "192.243.126.104",
+                        "port": 6621,
                         "users": [
                             {
-                                "id": "12d8f193-535c-450b-8c83-a6d5a2333c91",
-                                "alterId": 0
-                            }
-                        ]
-                    },
-                    {
-                        "address": "45.78.34.188",
-                        "port": 9957,
-                        "users": [
-                            {
-                                "id": "12d8f193-535c-450b-8c83-a6d5a2333c91",
-                                "alterId": 0
-                            }
-                        ]
-                    },
-                    {
-                        "address": "45.78.35.152",
-                        "port": 9957,
-                        "users": [
-                            {
-                                "id": "12d8f193-535c-450b-8c83-a6d5a2333c91",
-                                "alterId": 0
-                            }
-                        ]
-                    },
-                    {
-                        "address": "174.137.48.211",
-                        "port": 9957,
-                        "users": [
-                            {
-                                "id": "12d8f193-535c-450b-8c83-a6d5a2333c91",
+                                "id": "884dbbf6-60f2-454b-80f1-368a13105328",
                                 "alterId": 0
                             }
                         ]

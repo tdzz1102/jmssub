@@ -1,8 +1,8 @@
 import copy
-from server import Server
+from protocol import Protocol
 
 
-class ShadowSocks(Server):
+class ShadowSocks(Protocol):
     template = {
         "protocol": "shadowsocks",
         "settings": {

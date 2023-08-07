@@ -1,6 +1,7 @@
 import json
 import sys
-from requests import Session
+import requests
+import subprocess
 from loguru import logger
 from base64 import b64decode
 from urllib.parse import urlsplit
@@ -10,21 +11,24 @@ from vmess import Vmess
 from settings import Settings
 
 
-logger.add(Settings.log_path)
-subscription_content = ''
+logger.add(Settings.jmssub_log_path)
+server: subprocess.Popen | None = None
 
 
-def update_sub():
-    global subscription_content
+def update_sub() -> dict:
+    with requests.Session() as se:
+        se.trust_env = False
+        subscription_content = se.get(Settings.subscription_url).text
     share_links = b64decode(subscription_content).decode('utf-8').splitlines()
-
+    
     try:
         with open(Settings.v2ray_config_path) as f:
             v2ray_config: dict = json.load(f)
-    except:
-        print(
-            f'The config.json for v2ray not found in {Settings.v2ray_config_path}.')
-        sys.exit(1)
+    except Exception as e:
+        # print(
+        #     f'The config.json for v2ray not found in "{Settings.v2ray_config_path}".')
+        # sys.exit(1)
+        raise e
 
     outbounds: list = v2ray_config['outbounds']
     outbounds.clear()
@@ -44,13 +48,14 @@ def update_sub():
             vmess_items.append(vm)
 
     if vmess_items and vmess_items[1].ping():
-        outbounds.append(vmess_items[1])  # japan only
-        logger.info('Japan server is avaliable. Use it only.')
+        outbounds.append(Vmess.gen_outbound(vmess_items[1:2]))  # japan only
+        logger.info('Japan server is avaliable. Use it!')
     else:
         if not Settings.vmess_only and ss_items:
             outbounds.append(ShadowSocks.gen_outbound(ss_items))
         if vmess_items:
             outbounds.append(Vmess.gen_outbound(vmess_items))
+        print(outbounds)
         logger.info('Japan server is unavaliable. Use others...')
     if not outbounds:
         logger.error('No avaliable server now.')
@@ -61,41 +66,31 @@ def update_sub():
 
     with open(Settings.v2ray_config_path, 'w') as f:
         json.dump(v2ray_config, f, indent=4)
+    
+    return v2ray_config
 
-    if Settings.docker:
-        import docker
-        client = docker.from_env()
-        try:
-            ct = client.containers.get(Settings.container_name)
-            ct.restart()
-            logger.info('Container restart OK.')
-        except:
-            ct = client.containers.run(
-                image='v2fly/v2fly-core',
-                command=f'run -c /etc/v2fly/config.json',
-                volumes={Settings.v2ray_config_path: {
-                    'bind': '/etc/v2fly/config.json', 'mode': 'rw'}},
-                network_mode='host',
-                detach=True,
-                name=Settings.container_name
-            )
-            logger.warning('No container found. Start a new one.')
+
+def restart_server():
+    global server
+    if server:
+        server.terminate()
+        server.wait()
+    with open(Settings.v2ray_log_path, 'a') as f:
+        server = subprocess.Popen([Settings.bin_path, 'run', '-c', Settings.v2ray_config_path], stdout=f)
 
 
 def main():
-    se = Session()
-    se.trust_env = False
+    v2ray_config = {}
     while True:
-        # logger.info('Working...')
-        global subscription_content
         try:
-            new_subscription_content = se.get(Settings.subscription_url).text
-            if new_subscription_content != subscription_content:
-                logger.warning('Detected subscription change.')
-                subscription_content = new_subscription_content
-                update_sub()
+            new_v2ray_config = update_sub()
+            if new_v2ray_config != v2ray_config:
+                # config changed. restart server!
+                v2ray_config = new_v2ray_config
+                restart_server()
         except Exception as e:
             logger.error(str(e))
+            raise e
         sleep(60)
 
 

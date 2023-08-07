@@ -1,9 +1,9 @@
 import copy
 import json
-from server import Server
+from protocol import Protocol
 
 
-class Vmess(Server):
+class Vmess(Protocol):
     template = {
         "protocol": "vmess",
         "settings": {
