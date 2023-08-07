@@ -37,6 +37,7 @@ class ShadowSocks(Server):
     def gen_outbound(items):
         cfg = copy.deepcopy(ShadowSocks.template)
         for item in items:
-            server = item.outbound()
-            cfg['settings']['servers'].append(server)
+            if item.ping():
+                server = item.outbound()
+                cfg['settings']['servers'].append(server)
         return cfg

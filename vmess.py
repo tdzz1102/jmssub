@@ -1,4 +1,5 @@
 import copy
+import json
 from server import Server
 
 
@@ -28,7 +29,9 @@ class Vmess(Server):
         ]
     }
 
-    def __init__(self, tmp: dict) -> None:
+    def __init__(self, tmp: dict | str) -> None:
+        if isinstance(tmp, str):
+            tmp = json.loads(tmp)
         port = int(tmp['port'])
         address = tmp['add']
         super(). __init__(address, port)
@@ -49,6 +52,7 @@ class Vmess(Server):
     def gen_outbound(items):
         cfg = copy.deepcopy(Vmess.template)
         for item in items:
-            server = item.outbound()
-            cfg['settings']['vnext'].append(server)
+            if item.ping():
+                server = item.outbound()
+                cfg['settings']['vnext'].append(server)
         return cfg

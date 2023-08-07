@@ -9,16 +9,14 @@ from shadowsocks import ShadowSocks
 from vmess import Vmess
 from settings import Settings
 
+
 logger.add(Settings.log_path)
-sub_content = ''
-
-
-# count = 0
+subscription_content = ''
 
 
 def update_sub():
-    global sub_content
-    share_links = b64decode(sub_content).decode('utf-8').splitlines()
+    global subscription_content
+    share_links = b64decode(subscription_content).decode('utf-8').splitlines()
 
     try:
         with open(Settings.v2ray_config_path) as f:
@@ -34,25 +32,28 @@ def update_sub():
     ss_items: list[ShadowSocks] = []
     vmess_items: list[Vmess] = []
 
-    for i, share_link in enumerate(share_links):
-        if i != 3: # japan only
-            continue
+    for share_link in share_links:
         url = urlsplit(share_link)
         protocal = url.scheme
         tmp = b64decode(url.netloc + '===').decode('utf-8')
         if protocal == 'ss':
             ss = ShadowSocks(tmp)
-            if ss.ping():
-                ss_items.append(ss)
+            ss_items.append(ss)
         elif protocal == 'vmess':
-            vm = Vmess(json.loads(tmp))
-            # if vm.ping():
-            vmess_items.append(Vmess(json.loads(tmp)))
+            vm = Vmess(tmp)
+            vmess_items.append(vm)
 
-    if not Settings.vmess_only and ss_items:
-        outbounds.append(ShadowSocks.gen_outbound(ss_items))
-    if vmess_items:
-        outbounds.append(Vmess.gen_outbound(vmess_items))
+    if vmess_items and vmess_items[1].ping():
+        outbounds.append(vmess_items[1])  # japan only
+        logger.info('Japan server is avaliable. Use it only.')
+    else:
+        if not Settings.vmess_only and ss_items:
+            outbounds.append(ShadowSocks.gen_outbound(ss_items))
+        if vmess_items:
+            outbounds.append(Vmess.gen_outbound(vmess_items))
+        logger.info('Japan server is unavaliable. Use others...')
+    if not outbounds:
+        logger.error('No avaliable server now.')
     logger.info('Subscription update OK.')
 
     if len(ss_items) + len(vmess_items) == 0:
@@ -86,12 +87,12 @@ def main():
     se.trust_env = False
     while True:
         # logger.info('Working...')
-        global sub_content
+        global subscription_content
         try:
-            new_sub_content = se.get(Settings.subscription_url).text
-            if new_sub_content != sub_content:
+            new_subscription_content = se.get(Settings.subscription_url).text
+            if new_subscription_content != subscription_content:
                 logger.warning('Detected subscription change.')
-                sub_content = new_sub_content
+                subscription_content = new_subscription_content
                 update_sub()
         except Exception as e:
             logger.error(str(e))
