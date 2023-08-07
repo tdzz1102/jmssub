@@ -6,3 +6,8 @@ class Settings:
 
     bin_path = '/opt/jmssub/bin/v2ray'
     v2ray_log_path = '/opt/jmssub/v2ray.log'
+    cert_path = '/home/ubuntu/static/cert/certificate.crt'
+    key_path = '/home/ubuntu/static/cert/private.key'
+    exporter_port = 1212
+    exporter_ip = '124.220.153.22' # for wss
+    

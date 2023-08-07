@@ -1,7 +1,9 @@
 import json
-import sys
+import threading
 import requests
 import subprocess
+import uvicorn
+from exporter import app as exporter_app
 from loguru import logger
 from base64 import b64decode
 from urllib.parse import urlsplit
@@ -79,7 +81,13 @@ def restart_server():
         server = subprocess.Popen([Settings.bin_path, 'run', '-c', Settings.v2ray_config_path], stdout=f)
 
 
+def start_exporter():
+    uvicorn.run(exporter_app, host='0.0.0.0', port=Settings.exporter_port, ssl_keyfile=Settings.key_path, ssl_certfile=Settings.cert_path)
+
+
 def main():
+    exporter_thread = threading.Thread(target=start_exporter, daemon=True)
+    exporter_thread.start()
     v2ray_config = {}
     while True:
         try:
