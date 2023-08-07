@@ -19,7 +19,7 @@ templates = Jinja2Templates(directory=str(template_path.resolve()))
 def get_current_username(credentials: HTTPBasicCredentials = Depends(security)):
     username = credentials.username
     password = credentials.password
-    if password != "luzao1018":
+    if password != "ymm0205":
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid authentication credentials",
